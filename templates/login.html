@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Leaderboard</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<div class="container">
-    <h2>Login</h2>
-    <form method="POST">
-        <input name="email" placeholder="Email" required>
-        <input name="password" type="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
-    <a href="/signup">Create Account</a>
+<div class="dashboard">
+
+    <h1>🏆 Leaderboard</h1>
+
+    {% for member in members %}
+        <div class="hub-card">
+            <h3>{{loop.index}}. {{member[0]}}</h3>
+            <p>Points: {{member[1]}}</p>
+            <p>Streak: {{member[2]}} days</p>
+        </div>
+    {% endfor %}
+
+    <a href="/groups">
+        <button>⬅ Back</button>
+    </a>
+
 </div>
 
 </body>

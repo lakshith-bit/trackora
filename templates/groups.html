@@ -29,6 +29,7 @@
         <h1>Group Hub</h1>
 
         <div class="action-box">
+
             <form method="POST" action="/create_group">
                 <input name="group_name" placeholder="Create group..." required>
                 <button>Create</button>
@@ -38,6 +39,7 @@
                 <input name="group_id" placeholder="Join with ID..." required>
                 <button>Join</button>
             </form>
+
         </div>
 
         <h2>All Groups</h2>
@@ -52,9 +54,17 @@
                     {% if group[3] %}
                         <p style="color:red;">Broken by: {{group[3]}}</p>
                     {% endif %}
+
+                    <a href="/leaderboard/{{group[0]}}">
+                        <button>Leaderboard</button>
+                    </a>
                 </div>
             {% endfor %}
         </div>
+
+        <a href="/dashboard">
+            <button style="margin-top:20px;">⬅ Back</button>
+        </a>
 
     </div>
 

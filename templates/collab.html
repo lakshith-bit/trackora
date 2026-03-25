@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collab</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1>🤝 Collab Hub</h1>
+
+    <div class="hub-card">
+        <form method="POST">
+            <input name="receiver" placeholder="Enter user email" required>
+            <button>Send Request</button>
+        </form>
+    </div>
+
+    <h2>Incoming Requests</h2>
+
+    {% for r in requests %}
+        <div class="hub-card">
+            <p>{{r[0]}} wants to collaborate</p>
+        </div>
+    {% endfor %}
+
+    <a href="/dashboard">
+        <button>⬅ Back</button>
+    </a>
+
+</div>
+
+</body>
+</html>

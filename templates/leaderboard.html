@@ -7,10 +7,11 @@
 <body>
 
 <div class="dashboard">
-    <h2>🏆 Leaderboard</h2>
+
+    <h1>🏆 Leaderboard</h1>
 
     {% for member in members %}
-        <div class="box">
+        <div class="hub-card">
             <h3>{{loop.index}}. {{member[0]}}</h3>
             <p>Points: {{member[1]}}</p>
             <p>Streak: {{member[2]}} days</p>
@@ -18,8 +19,9 @@
     {% endfor %}
 
     <a href="/groups">
-        <button>Back</button>
+        <button>⬅ Back</button>
     </a>
+
 </div>
 
 </body>

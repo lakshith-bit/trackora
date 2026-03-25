@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
 from datetime import datetime, timedelta
+import random
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -70,7 +71,17 @@ def dashboard():
     streak = data[0] if data else 0
     points = data[1] if data else 0
 
-    return render_template("dashboard.html", user=session["user"], streak=streak, points=points)
+    quotes = [
+    "Consistency beats talent.",
+    "Practice daily, improve forever.",
+    "Small progress is still progress.",
+    "Discipline creates freedom.",
+    "Show up even when you don’t feel like it."
+]
+
+    quote = random.choice(quotes)
+
+    return render_template("dashboard.html", user=session["user"], streak=streak, points=points, quote=quote)
 
 
 # CREATE GROUP
@@ -228,6 +239,19 @@ def practice():
     db.commit()
     return redirect("/dashboard")
 
+@app.route("/upload", methods=["POST"])
+def upload():
+    return redirect("/dashboard")
+
+@app.route("/performance")
+def performance():
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("SELECT COUNT(*) FROM practice_log WHERE user_email=?", (session["user"],))
+    days = cur.fetchone()[0]
+
+    return render_template("performance.html", days=days)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -159,3 +159,32 @@ button:hover {
     width: 100%;
     background: black;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #111827;
+    border-bottom: 1px solid #222;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+    opacity: 0.8;
+}
+
+.navbar a:hover {
+    opacity: 1;
+}
+
+.hub-card, .group-card {
+    transition: all 0.3s ease;
+}
+
+.hub-card:hover, .group-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}

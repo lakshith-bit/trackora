@@ -6,14 +6,22 @@
 </head>
 <body>
 
+<div class="navbar">
+    <h2>🎵 Trackora</h2>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/groups">Groups</a>
+        <a href="/collab">Collab</a>
+    </div>
+</div>
+
 <div class="dashboard">
 
     <h1>Welcome {{user}}</h1>
-    <p>Your music journey, tracked socially</p>
+    <p>Stay consistent. Your group depends on you.</p>
 
     <div class="hub-container">
 
-        <!-- GROUP HUB -->
         <a href="/groups" class="hub-link">
             <div class="hub-card purple">
                 <h2>👥 Group Hub</h2>
@@ -21,7 +29,6 @@
             </div>
         </a>
 
-        <!-- PRACTICE -->
         <form method="POST" action="/practice" class="hub-link">
             <button class="hub-card green">
                 <h2>🎵 Practice Hub</h2>
@@ -29,14 +36,12 @@
             </button>
         </form>
 
-        <!-- STREAK -->
         <div class="hub-card orange">
             <h2>🔥 Streak Hub</h2>
             <p>{{streak}} days</p>
             <p>{{points}} points</p>
         </div>
 
-        <!-- PERFORMANCE -->
         <a href="/performance" class="hub-link">
             <div class="hub-card blue">
                 <h2>📊 Performance Hub</h2>
@@ -44,7 +49,6 @@
             </div>
         </a>
 
-        <!-- COLLAB -->
         <a href="/collab" class="hub-link">
             <div class="hub-card purple">
                 <h2>🤝 Collab Hub</h2>
@@ -52,7 +56,6 @@
             </div>
         </a>
 
-        <!-- MOTIVATION -->
         <div class="hub-card">
             <h3>💡 Motivation</h3>
             <p>{{quote}}</p>

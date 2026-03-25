@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leaderboard</title>
+    <title>Login</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
+<div class="navbar">
+    <h2>🎵 Trackora</h2>
+</div>
+
 <div class="dashboard">
 
-    <h1>🏆 Leaderboard</h1>
+    <div class="hub-card purple">
+        <h2>Login</h2>
 
-    {% for member in members %}
-        <div class="hub-card">
-            <h3>{{loop.index}}. {{member[0]}}</h3>
-            <p>Points: {{member[1]}}</p>
-            <p>Streak: {{member[2]}} days</p>
-        </div>
-    {% endfor %}
+        <form method="POST">
+            <input name="email" placeholder="Email" required>
+            <input name="password" type="password" placeholder="Password" required>
+            <button>Login</button>
+        </form>
 
-    <a href="/groups">
-        <button>⬅ Back</button>
-    </a>
+        <br>
+
+        <a href="/signup">
+            <button>Create Account</button>
+        </a>
+    </div>
 
 </div>
 

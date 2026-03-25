@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -52,7 +53,16 @@ def dashboard():
     if "user" not in session:
         return redirect("/login")
 
-    return render_template("dashboard.html", user=session["user"])
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("SELECT streak, points FROM users WHERE email=?", (session["user"],))
+    data = cur.fetchone()
+
+    streak = data[0] if data else 0
+    points = data[1] if data else 0
+
+    return render_template("dashboard.html", user=session["user"], streak=streak, points=points)
 
 # CREATE GROUP
 @app.route("/create_group", methods=["POST"])
@@ -110,6 +120,51 @@ def join_group():
 
     db.commit()
     return redirect("/groups")
+
+@app.route("/practice", methods=["POST"])
+def practice():
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    email = session["user"]
+    today = datetime.now().date()
+
+    cur.execute("SELECT streak, last_practice, points FROM users WHERE email=?", (email,))
+    user = cur.fetchone()
+
+    streak, last_date, points = user
+
+    if last_date:
+        last_date = datetime.strptime(last_date, "%Y-%m-%d").date()
+
+        if last_date == today:
+            return redirect("/dashboard")
+
+        elif last_date == today - timedelta(days=1):
+            streak += 1
+        else:
+            streak = 1
+    else:
+        streak = 1
+
+    points += 10
+
+    if streak % 7 == 0:
+        points += 50
+
+    cur.execute("""
+    UPDATE users SET streak=?, last_practice=?, points=?
+    WHERE email=?
+    """, (streak, str(today), points, email))
+
+    cur.execute("INSERT INTO practice_log (user_email, date) VALUES (?, ?)", (email, str(today)))
+
+    db.commit()
+
+    return redirect("/dashboard")
 
 
 if __name__ == "__main__":

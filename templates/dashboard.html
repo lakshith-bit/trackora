@@ -10,8 +10,24 @@
     <h2>Welcome {{user}}</h2>
 
     <div class="box">
-        <h3>👥 Groups</h3>
+        <h3>🔥 Streak</h3>
+        <p>{{streak}} days</p>
+    </div>
 
+    <div class="box">
+        <h3>🏆 Points</h3>
+        <p>{{points}}</p>
+    </div>
+
+    <div class="box">
+        <h3>🎵 Practice</h3>
+        <form method="POST" action="/practice">
+            <button>Mark Practice Done</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h3>👥 Groups</h3>
         <form method="POST" action="/create_group">
             <input name="group_name" placeholder="New group name" required>
             <button>Create Group</button>

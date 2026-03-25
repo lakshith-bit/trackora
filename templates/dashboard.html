@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>Trackora</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <div class="dashboard">
-    <h2>Welcome {{user}}</h2>
 
-    <div class="box">
-        <h3>🔥 Streak</h3>
-        <p>{{streak}} days</p>
-    </div>
+    <h1>Welcome to Trackora</h1>
+    <p>Choose a hub to get started</p>
 
-    <div class="box">
-        <h3>🏆 Points</h3>
-        <p>{{points}}</p>
-    </div>
+    <div class="hub-container">
 
-    <div class="box">
-        <h3>🎵 Practice</h3>
-        <form method="POST" action="/practice">
-            <button>Mark Practice Done</button>
-        </form>
-    </div>
-
-    <div class="box">
-        <h3>👥 Groups</h3>
-        <form method="POST" action="/create_group">
-            <input name="group_name" placeholder="New group name" required>
-            <button>Create Group</button>
-        </form>
-
-        <br>
-
-        <a href="/groups">
-            <button>View My Groups</button>
+        <!-- GROUP HUB -->
+        <a href="/groups" class="hub-link">
+            <div class="hub-card purple">
+                <h2>👥 Group Hub</h2>
+                <p>Create, join and manage groups</p>
+            </div>
         </a>
+
+        <!-- PRACTICE HUB -->
+        <form method="POST" action="/practice" class="hub-link">
+            <button class="hub-card green">
+                <h2>🎵 Practice Hub</h2>
+                <p>Mark today’s practice</p>
+            </button>
+        </form>
+
+        <!-- STREAK HUB -->
+        <div class="hub-card orange">
+            <h2>🔥 Streak Hub</h2>
+            <p>{{streak}} days</p>
+            <p>{{points}} points</p>
+        </div>
+
     </div>
 
 </div>

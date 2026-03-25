@@ -6,29 +6,62 @@
 </head>
 <body>
 
-<div class="dashboard">
-    <h2>Your Groups</h2>
+<div class="layout">
 
-    {% for group in groups %}
-        <div class="box">
-            <h3>{{group[1]}}</h3>
-            <p>Group ID: {{group[0]}}</p>
-
-            <a href="/leaderboard/{{group[0]}}">
-                <button>View Leaderboard</button>
-            </a>
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+        <div class="stat-card">
+            <p>Individual Streak</p>
+            <h1>{{streak}}</h1>
+            <span>days</span>
         </div>
-    {% endfor %}
 
-    <div class="box">
-        <h3>Join Group</h3>
-        <form method="POST" action="/join_group">
-            <input name="group_id" placeholder="Enter Group ID">
-            <button>Join</button>
-        </form>
+        <div class="stat-card">
+            <p>Group Streak</p>
+            <h1>8</h1>
+            <span>days</span>
+        </div>
     </div>
 
-    <a href="/dashboard"><button>Back</button></a>
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+        <h1>Group Hub</h1>
+        <p>Manage and join practice groups</p>
+
+        <!-- ACTION BOX -->
+        <div class="action-box">
+
+            <form method="POST" action="/create_group">
+                <input name="group_name" placeholder="Create group..." required>
+                <button>Create</button>
+            </form>
+
+            <form method="POST" action="/join_group">
+                <input name="group_id" placeholder="Join with ID..." required>
+                <button>Join</button>
+            </form>
+
+        </div>
+
+        <!-- GROUP GRID -->
+        <h2>All Groups</h2>
+
+        <div class="group-grid">
+            {% for group in groups %}
+                <div class="group-card">
+                    <h3>{{group[1]}}</h3>
+                    <p>Invite Code: {{group[0]}}</p>
+
+                    <a href="/leaderboard/{{group[0]}}">
+                        <button>View Details</button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
 </div>
 
 </body>

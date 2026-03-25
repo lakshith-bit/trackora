@@ -253,5 +253,24 @@ def performance():
 
     return render_template("performance.html", days=days)
 
+@app.route("/collab", methods=["GET", "POST"])
+def collab():
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    if request.method == "POST":
+        receiver = request.form["receiver"]
+        cur.execute("INSERT INTO collabs VALUES (?, ?, 'pending')",
+                    (session["user"], receiver))
+        db.commit()
+
+    cur.execute("SELECT * FROM collabs WHERE receiver=?", (session["user"],))
+    requests = cur.fetchall()
+
+    return render_template("collab.html", requests=requests)
+
 if __name__ == "__main__":
     app.run(debug=True)

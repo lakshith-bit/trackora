@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+    <h2>🏆 Leaderboard</h2>
+
+    {% for member in members %}
+        <div class="box">
+            <h3>{{loop.index}}. {{member[0]}}</h3>
+            <p>Points: {{member[1]}}</p>
+            <p>Streak: {{member[2]}} days</p>
+        </div>
+    {% endfor %}
+
+    <a href="/groups">
+        <button>Back</button>
+    </a>
+</div>
+
+</body>
+</html>

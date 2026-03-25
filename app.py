@@ -166,6 +166,25 @@ def practice():
 
     return redirect("/dashboard")
 
+@app.route("/leaderboard/<int:group_id>")
+def leaderboard(group_id):
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+    SELECT u.name, u.points, u.streak
+    FROM users u
+    JOIN group_members gm ON u.email = gm.user_email
+    WHERE gm.group_id = ?
+    ORDER BY u.points DESC
+    """, (group_id,))
+
+    members = cur.fetchall()
+
+    return render_template("leaderboard.html", members=members)
 
 if __name__ == "__main__":
     app.run(debug=True)

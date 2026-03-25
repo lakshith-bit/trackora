@@ -10,21 +10,20 @@
     <h2>Welcome {{user}}</h2>
 
     <div class="box">
-        <h3>🔥 Streak</h3>
-        <p>Current: 1 day</p>
-    </div>
-
-    <div class="box">
         <h3>👥 Groups</h3>
-        <button>Create Group</button>
-        <button>Join Group</button>
+
+        <form method="POST" action="/create_group">
+            <input name="group_name" placeholder="New group name" required>
+            <button>Create Group</button>
+        </form>
+
+        <br>
+
+        <a href="/groups">
+            <button>View My Groups</button>
+        </a>
     </div>
 
-    <div class="box">
-        <h3>🎵 Practice</h3>
-        <button>Start Timer</button>
-        <button>Upload Recording</button>
-    </div>
 </div>
 
 </body>

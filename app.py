@@ -54,5 +54,63 @@ def dashboard():
 
     return render_template("dashboard.html", user=session["user"])
 
+# CREATE GROUP
+@app.route("/create_group", methods=["POST"])
+def create_group():
+    if "user" not in session:
+        return redirect("/login")
+
+    group_name = request.form["group_name"]
+
+    db = get_db()
+    cur = db.cursor()
+
+    # insert group
+    cur.execute("INSERT INTO groups (name) VALUES (?)", (group_name,))
+    group_id = cur.lastrowid
+
+    # add creator as member
+    cur.execute("INSERT INTO group_members (user_email, group_id) VALUES (?, ?)",
+                (session["user"], group_id))
+
+    db.commit()
+    return redirect("/groups")
+
+
+# VIEW GROUPS
+@app.route("/groups")
+def groups():
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+    SELECT g.id, g.name FROM groups g
+    JOIN group_members gm ON g.id = gm.group_id
+    WHERE gm.user_email = ?
+    """, (session["user"],))
+
+    user_groups = cur.fetchall()
+
+    return render_template("groups.html", groups=user_groups)
+
+
+# JOIN GROUP
+@app.route("/join_group", methods=["POST"])
+def join_group():
+    group_id = request.form["group_id"]
+
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("INSERT INTO group_members (user_email, group_id) VALUES (?, ?)",
+                (session["user"], group_id))
+
+    db.commit()
+    return redirect("/groups")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

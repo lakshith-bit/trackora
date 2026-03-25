@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Groups</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+    <h2>Your Groups</h2>
+
+    {% for group in groups %}
+        <div class="box">
+            <h3>{{group[1]}}</h3>
+            <p>Group ID: {{group[0]}}</p>
+        </div>
+    {% endfor %}
+
+    <div class="box">
+        <h3>Join Group</h3>
+        <form method="POST" action="/join_group">
+            <input name="group_id" placeholder="Enter Group ID">
+            <button>Join</button>
+        </form>
+    </div>
+
+    <a href="/dashboard"><button>Back</button></a>
+</div>
+
+</body>
+</html>

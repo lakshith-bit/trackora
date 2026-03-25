@@ -8,7 +8,7 @@
 
 <div class="layout">
 
-    <!-- LEFT SIDEBAR -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="stat-card">
             <p>Individual Streak</p>
@@ -18,20 +18,17 @@
 
         <div class="stat-card">
             <p>Group Streak</p>
-            <h1>8</h1>
+            <h1>-</h1>
             <span>days</span>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <div class="content">
 
         <h1>Group Hub</h1>
-        <p>Manage and join practice groups</p>
 
-        <!-- ACTION BOX -->
         <div class="action-box">
-
             <form method="POST" action="/create_group">
                 <input name="group_name" placeholder="Create group..." required>
                 <button>Create</button>
@@ -41,10 +38,8 @@
                 <input name="group_id" placeholder="Join with ID..." required>
                 <button>Join</button>
             </form>
-
         </div>
 
-        <!-- GROUP GRID -->
         <h2>All Groups</h2>
 
         <div class="group-grid">
@@ -52,10 +47,11 @@
                 <div class="group-card">
                     <h3>{{group[1]}}</h3>
                     <p>Invite Code: {{group[0]}}</p>
+                    <p>🔥 Streak: {{group[2]}} days</p>
 
-                    <a href="/leaderboard/{{group[0]}}">
-                        <button>View Details</button>
-                    </a>
+                    {% if group[3] %}
+                        <p style="color:red;">Broken by: {{group[3]}}</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

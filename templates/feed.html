@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feed</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>🎵 Trackora</h2>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/groups">Groups</a>
+    </div>
+</div>
+
+<div class="dashboard">
+
+    <h1>🔥 Practice Feed</h1>
+
+    <!-- POST BOX -->
+    <div class="hub-card">
+        <form method="POST" enctype="multipart/form-data">
+            <input name="content" placeholder="Share your practice...">
+            <input type="file" name="file" accept="audio/*,video/*">
+            <button>Post</button>
+        </form>
+    </div>
+
+    <!-- POSTS -->
+    {% for post in posts %}
+        <div class="hub-card">
+
+            <p><b>{{post[1]}}</b></p>
+            <p>{{post[2]}}</p>
+
+            <!-- SAFE MEDIA DISPLAY -->
+            {% if post|length > 3 and post[3] %}
+                
+                {% set file = post[3]|string %}
+
+                {% if '.mp4' in file %}
+                    <video width="100%" controls>
+                        <source src="/{{file}}">
+                    </video>
+                {% else %}
+                    <audio controls>
+                        <source src="/{{file}}">
+                    </audio>
+                {% endif %}
+
+            {% endif %}
+
+            <!-- SAFE UPVOTES -->
+            {% if post|length > 4 %}
+                <p>👍 {{post[4]}}</p>
+            {% else %}
+                <p>👍 0</p>
+            {% endif %}
+
+            <a href="/upvote/{{post[0]}}">
+                <button>Upvote</button>
+            </a>
+
+        </div>
+    {% endfor %}
+
+    <a href="/dashboard">
+        <button>⬅ Back</button>
+    </a>
+
+</div>
+
+</body>
+</html>

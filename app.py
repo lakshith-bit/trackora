@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 import sqlite3
 from datetime import datetime, timedelta
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -271,6 +272,65 @@ def collab():
     requests = cur.fetchall()
 
     return render_template("collab.html", requests=requests)
+
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route("/feed", methods=["GET", "POST"])
+def feed():
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    if request.method == "POST":
+        content = request.form.get("content", "")
+        file = request.files.get("file")
+
+        file_path = None
+
+        if file and file.filename != "":
+            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(filepath)
+            file_path = filepath
+
+        cur.execute("""
+        INSERT INTO posts (user_email, content, file_path)
+        VALUES (?, ?, ?)
+        """, (session["user"], content, file_path))
+
+        db.commit()
+
+    cur.execute("SELECT * FROM posts ORDER BY id DESC")
+    posts = cur.fetchall()
+
+    return render_template("feed.html", posts=posts)
+
+
+@app.route("/upvote/<int:post_id>")
+def upvote(post_id):
+    if "user" not in session:
+        return redirect("/login")
+
+    db = get_db()
+    cur = db.cursor()
+
+    # check if already upvoted
+    cur.execute("""
+    SELECT * FROM post_upvotes 
+    WHERE user_email=? AND post_id=?
+    """, (session["user"], post_id))
+
+    existing = cur.fetchone()
+
+    if not existing:
+        # add upvote
+        cur.execute("UPDATE posts SET upvotes = upvotes + 1 WHERE id=?", (post_id,))
+        cur.execute("INSERT INTO post_upvotes VALUES (?, ?)", (session["user"], post_id))
+        db.commit()
+
+    return redirect("/feed")
 
 if __name__ == "__main__":
     app.run(debug=True)
